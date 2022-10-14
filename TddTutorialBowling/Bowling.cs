@@ -13,9 +13,6 @@ namespace TddTutorialBowling
                 score += GetScore(shots, i);
             }
 
-            if (score > 300)
-                score = 300;
-
             return score;
         }
 
@@ -23,29 +20,48 @@ namespace TddTutorialBowling
         {
             int score = 0;
 
-            for (int i = 0; i < shots[index].Length; i++)
+            foreach (int item in shots[index])
             {
-                score += shots[index][i];
+                score += item;
 
                 if (spare)
+                {
                     return score;
+                }
+
+                if (strike)
+                {
+                    if (index == 9)
+                    {
+                        return score + shots[index][1];
+                    }
+                    else 
+                    {
+                        if (shots[index].Length == 1)
+                        {
+                            return score + GetScore(shots, index + 1, false, true);
+                        }
+                        else 
+                        {
+                            return score + GetScore(shots, index + 1, true);
+                        }
+                    }
+                }
             }
 
-            if (strike)
-            { 
-                if (shots[index].Length == 1)
-                    return score + GetScore(shots, index + 1, true);
-            }
-                
             if (score == 10)
             {
-                // Spare
+                // spare
                 if (shots[index].Length == 2)
+                {
                     score += GetScore(shots, index + 1, true);
+                }
 
-                // Strike
-                if (shots[index].Length == 1)
-                    score += GetScore(shots, index + 1, false, true);
+                // strike
+                //if (shots[index].Length == 1)
+                //{
+                //    score += GetScore(shots, index + 1, false, true);
+                //}
             }
 
             return score;
