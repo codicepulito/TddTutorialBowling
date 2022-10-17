@@ -24,10 +24,7 @@ namespace TddTutorialBowling
             {
                 score += shots[index][i];
 
-                if (spare)
-                    return score;
-
-                if (strike && i == 1)
+                if (spare || (strike && i == 1))
                 {
                     return score;
                 }
@@ -39,15 +36,9 @@ namespace TddTutorialBowling
                     return score + GetScore(shots, index + 1, true);
             }
                 
-            if (score == 10)
+            if (score == 10 && shots[index].Length < 3)
             {
-                // Spare
-                if (shots[index].Length == 2)
-                    score += GetScore(shots, index + 1, true);
-
-                // Strike
-                if (shots[index].Length == 1)
-                    score += GetScore(shots, index + 1, false, true);
+                score += GetScore(shots, index + 1, shots[index].Length == 2, shots[index].Length == 1);
             }
 
             return score;
