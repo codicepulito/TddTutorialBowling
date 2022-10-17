@@ -13,9 +13,6 @@ namespace TddTutorialBowling
                 score += GetScore(shots, i);
             }
 
-            if (score > 300)
-                score = 300;
-
             return score;
         }
 
@@ -29,6 +26,11 @@ namespace TddTutorialBowling
 
                 if (spare)
                     return score;
+
+                if (strike && i == 1)
+                {
+                    return score;
+                }
             }
 
             if (strike)
